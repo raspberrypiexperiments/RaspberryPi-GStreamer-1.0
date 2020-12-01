@@ -1,0 +1,9 @@
+[submodule "cerbero"]
+	path = cebero
+	url = https://github.com/GStreamer/cerbero.git
+[submodule "gst-python"]
+	path = gst-python
+	url = https://github.com/GStreamer/gst-python.git
+[submodule "pygobject"]
+	path = pygobject
+	url = https://github.com/GNOME/pygobject.git

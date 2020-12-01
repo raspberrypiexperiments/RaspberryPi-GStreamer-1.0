@@ -1,0 +1,9 @@
+--- a/cerbero/recipes/gst-omx-1.0.recipe	2020-11-28 15:41:14.467749079 +0100
++++ b/cerbero/recipes/gst-omx-1.0.recipe	2020-11-28 15:40:32.918297191 +0100
+@@ -21,5 +21,6 @@
+             self.append_env('CPPFLAGS', *flags)
+             self.append_env('LDFLAGS', '-L/opt/vc/lib')
+             self.meson_options['target'] = 'rpi'
++            self.meson_options['header_path'] = '/opt/vc/include/IL'
+         else:
+             self.meson_options['target'] = 'generic'

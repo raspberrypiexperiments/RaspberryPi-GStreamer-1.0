@@ -1,0 +1,19 @@
+--- a/cerbero/recipes/libsrtp.recipe	2020-11-29 12:37:06.722810153 +0100
++++ b/cerbero/recipes/libsrtp.recipe	2020-11-29 12:39:00.542363308 +0100
+@@ -18,12 +18,16 @@
+         'libsrtp/0001-Fix-building-with-gcc-10.patch',
+     ]
+ 
++    btype = BuildType.MAKEFILE
++    configure_tpl = './configure --prefix=%(prefix)s --enable-openssl'
++
+     files_libs = ['libsrtp2']
+     files_devel = ['include/srtp2', 'lib/pkgconfig/libsrtp2.pc']
+ 
+     def prepare(self):
+         # Don't accidentially build with pcap support
+         self.set_env('ac_cv_lib_pcap_pcap_create', 'no')
++        self.append_env('PKG_CONFIG_PATH',':/usr/lib/arm-linux-gnueabihf/pkgconfig')
+ 
+     async def install(self):
+         await super(Recipe, self).install()
