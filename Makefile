@@ -1,6 +1,8 @@
 dependencies:
 	sudo apt update
 	sudo apt upgrade -y
+	sudo apt install ninja-build
+	pip3 install --user meson
 	cd cerbero && git checkout 1.18.1
 
 install: dependencies
@@ -16,9 +18,9 @@ install: dependencies
 	sudo ldconfig
 	if [ -f /etc/lsb-release.bak ]; then sudo mv /etc/lsb-release.bak /etc/lsb-release; fi
 	cd pygobject && git checkout 3.38.0
-	cd pygobject && meson --prefix=/usr/local build && ninja -C build && sudo ninja -C build install
+	cd pygobject && meson --prefix=/usr/local build && ninja -C build && sudo -E ninja -C build install
 	cd gst-python && git checkout 1.18.1
-	cd gst-python && meson --prefix=/usr/local build && ninja -C build && sudo ninja -C build install
+	cd gst-python && meson --prefix=/usr/local build && ninja -C build && sudo -E ninja -C build install
 
 uninstall: dependencies
 	cd cerbero && sudo ./cerbero-uninstalled wipe

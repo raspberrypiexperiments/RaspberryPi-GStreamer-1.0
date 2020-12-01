@@ -1,5 +1,5 @@
 [submodule "cerbero"]
-	path = cebero
+	path = cerbero
 	url = https://github.com/GStreamer/cerbero.git
 [submodule "gst-python"]
 	path = gst-python
