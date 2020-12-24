@@ -1,0 +1,15 @@
+--- a/cerbero/recipes/gst-plugins-good-1.0.recipe	2020-12-24 07:46:14.551838213 +0000
++++ b/cerbero/recipes/gst-plugins-good-1.0.recipe	2020-12-24 08:02:14.332511947 +0000
+@@ -271,3 +271,12 @@
+ 
+         if self.config.variants.nodebug:
+             self.append_env('CFLAGS', '-DGST_LEVEL_MAX=GST_LEVEL_FIXME')
++
++    async def configure(self):
++        if self.config.variants.rpi:
++            try:
++                os.system('patch -p1 < recipes/gst-plugins-good-1.0/0001_RaspiCapture.c.patch')
++            except:
++                pass
++        await super(Recipe, self).configure()
++

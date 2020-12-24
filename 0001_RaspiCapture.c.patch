@@ -1,0 +1,11 @@
+--- a/build/sources/linux_armv7/gst-plugins-good-1.0-1.18.1/sys/rpicamsrc/RaspiCapture.c	2020-12-24 07:52:05.618394540 +0000
++++ b/build/sources/linux_armv7/gst-plugins-good-1.0-1.18.1/sys/rpicamsrc/RaspiCapture.c	2020-12-24 07:52:40.068059376 +0000
+@@ -939,7 +939,7 @@
+   GstClockTime gst_pts = GST_CLOCK_TIME_NONE;
+ 
+   do {
+-    buffer = mmal_queue_timedwait(state->encoded_buffer_q, 500);
++    buffer = mmal_queue_timedwait(state->encoded_buffer_q, 1500);
+     // Work around a bug where mmal_queue_timedwait() might return
+     // immediately if the internal timeout time aligns exactly
+     // with a 1 second rollover boundary by checking errno.
