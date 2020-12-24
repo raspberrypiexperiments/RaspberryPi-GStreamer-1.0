@@ -24,7 +24,7 @@ This repository includes installation procedure for GStreamer 1.18.1.
 
 ## Known issues
 
-1. __gst-plugins-plugins-bad__ does not buidl if __libwyaland-dev__ is installed. The package is a dependency of __libgtk-3-dev__ installed by RaspberryPi-OpenCV project. __libgtk-3-dev__ is optional. It is necesarry to investigate if __libgtk-3-dev__ is really required or how to fix undefined reference to __gst_gl_display_wayland_get_type__ in __GstGLWayland-1.0.c__
+1. __gst-plugins-plugins-bad__ does not build if __libwyaland-dev__ is installed. The package is a dependency of __libgtk-3-dev__ installed by RaspberryPi-OpenCV project. __libgtk-3-dev__ is optional. It is necesarry to investigate if __libgtk-3-dev__ is really required or how to fix undefined reference to __gst_gl_display_wayland_get_type__ in __GstGLWayland-1.0.c__
 
 2. __cerbero__ build does not generate __deb__ packages:
 
