@@ -1,0 +1,18 @@
+--- a/build/sources/linux_armv7/gst-plugins-good-1.0-1.18.1/sys/rpicamsrc/RaspiCapture.h	2021-02-07 13:24:03.137135727 +0000
++++ b/build/sources/linux_armv7/gst-plugins-good-1.0-1.18.1/sys/rpicamsrc/RaspiCapture.h	2021-02-07 14:07:23.936603748 +0000
+@@ -1,6 +1,7 @@
+ /*
+  * GStreamer
+  * Copyright (C) 2013-2015 Jan Schmidt <jan@centricular.com>
++ *                    2021 Marcin Sielski <marcin.sielski@gmail.com>
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a
+  * copy of this software and associated documentation files (the "Software"),
+@@ -123,6 +124,7 @@
+    int jpegRestartInterval;
+ 
+    int useSTC;
++   int cameraTimeout;
+ } RASPIVID_CONFIG;
+ 
+ typedef struct RASPIVID_STATE_T RASPIVID_STATE;

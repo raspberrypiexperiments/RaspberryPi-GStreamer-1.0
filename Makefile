@@ -1,3 +1,25 @@
+# MIT License
+#
+# Copyright (c) 2021 Marcin Sielski <marcin.sielski@gmail.com>
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 dependencies:
 	sudo apt update
 	sudo apt upgrade -y
@@ -18,6 +40,9 @@ install: dependencies
 	if ! patch -R -p1 -s -f --dry-run <0003_gst-plugins-good-1.0.recipe.patch; then patch -p1 < 0003_gst-plugins-good-1.0.recipe.patch; fi
 	mkdir -p cerbero/recipes/gst-plugins-good-1.0
 	cp 0001_RaspiCapture.c.patch cerbero/recipes/gst-plugins-good-1.0
+	cp 0002_gstrpicamsrc.c.patch cerbero/recipes/gst-plugins-good-1.0
+	cp 0003_gstmultifilesink.c.patch cerbero/recipes/gst-plugins-good-1.0
+	cp 0004_gstmultifilesink.h.patch cerbero/recipes/gst-plugins-good-1.0
 	cd cerbero && sudo ./cerbero-uninstalled bootstrap
 	cd cerbero && sudo ./cerbero-uninstalled -c config/linux.config -v rpi package gstreamer-1.0 || true
 	sudo ldconfig
@@ -28,3 +53,18 @@ install: dependencies
 
 uninstall: dependencies
 	cd cerbero && sudo ./cerbero-uninstalled wipe
+
+rebuild:
+	sudo dphys-swapfile swapoff
+	sudo dphys-swapfile swapon
+	diff -Naur a/build/sources/linux_armv7/gst-plugins-good-1.0-1.18.1/sys/rpicamsrc/RaspiCapture.c b/build/sources/linux_armv7/gst-plugins-good-1.0-1.18.1/sys/rpicamsrc/RaspiCapture.c > 0001_RaspiCapture.c.patch || true
+	diff -Naur a/build/sources/linux_armv7/gst-plugins-good-1.0-1.18.1/sys/rpicamsrc/gstrpicamsrc.c b/build/sources/linux_armv7/gst-plugins-good-1.0-1.18.1/sys/rpicamsrc/gstrpicamsrc.c > 0002_gstrpicamsrc.c.patch || true
+	diff -Naur a/build/sources/linux_armv7/gst-plugins-good-1.0-1.18.1/sys/rpicamsrc/RaspiCapture.h b/build/sources/linux_armv7/gst-plugins-good-1.0-1.18.1/sys/rpicamsrc/RaspiCapture.h > 0005_RaspiCapture.h.patch || true
+	diff -Naur a/cerbero/recipes/gst-plugins-good-1.0.recipe b/cerbero/recipes/gst-plugins-good-1.0.recipe > 0003_gst-plugins-good-1.0.recipe.patch || true
+	cp 0001_RaspiCapture.c.patch cerbero/recipes/gst-plugins-good-1.0
+	cp 0002_gstrpicamsrc.c.patch cerbero/recipes/gst-plugins-good-1.0
+	cp 0005_RaspiCapture.h.patch cerbero/recipes/gst-plugins-good-1.0
+	cp a/cerbero/recipes/gst-plugins-good-1.0.recipe cerbero/recipes/gst-plugins-good-1.0.recipe
+	if ! patch -R -p1 -s -f --dry-run <0003_gst-plugins-good-1.0.recipe.patch; then patch -p1 < 0003_gst-plugins-good-1.0.recipe.patch; fi
+	cd cerbero && sudo ./cerbero-uninstalled -c config/linux.config -v rpi buildone gst-plugins-good-1.0
+	sudo dphys-swapfile swapoff

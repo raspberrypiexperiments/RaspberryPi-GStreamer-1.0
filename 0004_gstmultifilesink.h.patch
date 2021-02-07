@@ -1,0 +1,20 @@
+--- a/build/sources/linux_armv7/gst-plugins-good-1.0-1.18.1/gst/multifile/gstmultifilesink.h	2021-01-24 11:38:06.922563015 +0000
++++ b/build/sources/linux_armv7/gst-plugins-good-1.0-1.18.1/gst/multifile/gstmultifilesink.h	2021-01-24 11:39:45.831499451 +0000
+@@ -3,6 +3,7 @@
+  *                    2000 Wim Taymans <wtay@chello.be>
+  *                    2006 Wim Taymans <wim@fluendo.com>
+  *                    2006 David A. Schleef <ds@schleef.org>
++ *                    2021 Marcin Sielski <marcin.sielski@gmail.com>
+  *
+  * gstmultifilesink.h:
+  *
+@@ -73,7 +74,8 @@
+   GST_MULTI_FILE_SINK_NEXT_KEY_FRAME,
+   GST_MULTI_FILE_SINK_NEXT_KEY_UNIT_EVENT,
+   GST_MULTI_FILE_SINK_NEXT_MAX_SIZE,
+-  GST_MULTI_FILE_SINK_NEXT_MAX_DURATION
++  GST_MULTI_FILE_SINK_NEXT_MAX_DURATION,
++  GST_MULTI_FILE_SINK_NEXT_MAX_SIZE_OR_DURATION
+ } GstMultiFileSinkNext;
+ 
+ struct _GstMultiFileSink
