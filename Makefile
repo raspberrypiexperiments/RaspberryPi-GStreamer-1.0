@@ -43,6 +43,7 @@ install: dependencies
 	cp 0002_gstrpicamsrc.c.patch cerbero/recipes/gst-plugins-good-1.0
 	cp 0003_gstmultifilesink.c.patch cerbero/recipes/gst-plugins-good-1.0
 	cp 0004_gstmultifilesink.h.patch cerbero/recipes/gst-plugins-good-1.0
+	cp 0005_RaspiCapture.h.patch cerbero/recipes/gst-plugins-good-1.0
 	cd cerbero && sudo ./cerbero-uninstalled bootstrap
 	cd cerbero && sudo ./cerbero-uninstalled -c config/linux.config -v rpi package gstreamer-1.0 || true
 	sudo ldconfig
