@@ -48,9 +48,9 @@ install: dependencies
 	cd cerbero && sudo ./cerbero-uninstalled -c config/linux.config -v rpi package gstreamer-1.0 || true
 	sudo ldconfig
 	cd pygobject && git checkout 3.38.0
-	cd pygobject && meson --prefix=/usr/local build && ninja -C build && sudo -E ninja -C build install
+	cd pygobject && ~/.local/bin/meson --prefix=/usr/local build && ninja -C build && sudo -E ninja -C build install
 	cd gst-python && git checkout 1.18.1
-	cd gst-python && meson --prefix=/usr/local build && ninja -C build && sudo -E ninja -C build install
+	cd gst-python && ~/.local/bin/meson --prefix=/usr/local build && ninja -C build && sudo -E ninja -C build install
 
 uninstall: dependencies
 	cd cerbero && sudo ./cerbero-uninstalled wipe
