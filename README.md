@@ -2,10 +2,15 @@
 
 This repository includes installation procedure for GStreamer 1.18.1.
 
+## Known supported Raspberry Pi
+
+* Raspberry Pi 3B,
+* Raspberry Pi 4B.
+
 ## Installation procedure
 
 ```bash
-~ $ git clone --recurse-submodules https://github.com/raspberrypiexperiments/RaspberryPi-GStremaer-1.0.git
+~ $ git clone --recurse-submodules -j4 https://github.com/raspberrypiexperiments/RaspberryPi-GStremaer-1.0.git
 ~ $ cd RaspberryPi-GStremaer-1.0
 ~/RaspberryPi-GStremaer-1.0 $ make install
 ~/RaspberryPi-GStremaer-1.0 $ echo "export PATH=~/.local/bin:/usr/local/bin:$PATH" >> ~/.basrc
