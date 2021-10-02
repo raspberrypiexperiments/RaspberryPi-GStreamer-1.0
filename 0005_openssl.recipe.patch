@@ -1,0 +1,11 @@
+--- a/cerbero/recipes/openssl.recipe	2021-09-26 20:41:46.571855734 +0100
++++ b/cerbero/recipes/openssl.recipe	2021-09-26 20:42:44.711180135 +0100
+@@ -78,6 +78,8 @@
+                 return 'linux-x86_64'
+             if self.config.target_arch == Architecture.ARM:
+                 return 'linux-armv4'
++            if self.config.target_arch == Architecture.ARMv6L:
++                return 'linux-armv4'
+             if self.config.target_arch == Architecture.ARMv7:
+                 return 'linux-armv4'
+             if self.config.target_arch == Architecture.ARM64:

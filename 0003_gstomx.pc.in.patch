@@ -1,0 +1,16 @@
+--- a/build/sources/linux_armv6l/gst-omx-1.0-1.18.1/pkgconfig/gstomx.pc.in	1970-01-01 01:00:00.000000000 +0100
++++ b/build/sources/linux_armv6l/gst-omx-1.0-1.18.1/pkgconfig/gstomx.pc.in	2020-12-05 11:35:49.182000000 +0000
+@@ -0,0 +1,13 @@
++prefix=@prefix@
++exec_prefix=@exec_prefix@
++libdir=@libdir@
++includedir=@includedir@/gstreamer-@GST_API_VERSION@
++pluginsdir=@libdir@/gstreamer-@GST_API_VERSION@
++
++Name: GStreamer OpenMAX IL wrapper plugin
++Description: This plugin wraps available OpenMAX IL components and makes them available as standard GStreamer elements.
++Version: @VERSION@
++Requires: glib-2.0,gstreamer-@GST_API_VERSION@
++
++Libs: -L${libdir} -lgstomx
++Cflags: -I${includedir}

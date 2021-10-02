@@ -1,0 +1,24 @@
+--- a/cerbero/recipes/libvpx.recipe	2021-09-26 20:35:42.886506417 +0100
++++ b/cerbero/recipes/libvpx.recipe	2021-09-28 17:27:29.399865109 +0100
+@@ -55,6 +55,8 @@
+             arch = 'x86'
+         elif self.config.target_arch == Architecture.ARM:
+             arch = 'arm'
++        elif self.config.target_arch == Architecture.ARMv6L:
++            arch = 'armv6l'
+         elif self.config.target_arch == Architecture.ARMv7:
+             arch = 'armv7'
+         elif self.config.target_arch == Architecture.ARMv7S:
+@@ -183,3 +185,12 @@
+             shell.new_call(['install_name_tool', '-id', vpx_lib_with_ver, vpx_lib_with_ver])
+ 
+         super().post_install()
++
++    async def configure(self):
++        if self.config.variants.rpi:
++            try:
++                if self.config.target_arch == Architecture.ARMv6L:
++                    os.system('patch -p1 < recipes/libvpx/0001_configure.patch')
++            except:
++                pass
++        await super(Recipe, self).configure()

@@ -4,27 +4,29 @@ This repository includes installation procedure for GStreamer 1.18.1.
 
 ## Known supported Raspberry Pi
 
+* Raspberry Pi Zero,
+* Raspberry Pi Zero W,
 * Raspberry Pi 3B,
 * Raspberry Pi 4B.
 
 ## Installation procedure
 
 ```bash
-~ $ git clone --recurse-submodules -j4 https://github.com/raspberrypiexperiments/RaspberryPi-GStreamer-1.0.git
-~ $ cd RaspberryPi-GStremaer-1.0
-~/RaspberryPi-GStremaer-1.0 $ make install
-~/RaspberryPi-GStremaer-1.0 $ echo "export PATH=~/.local/bin:/usr/local/bin:$PATH" >> ~/.basrc
-~/RaspberryPi-GStremaer-1.0 $ echo "export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH" >> ~/.bashrc
-~/RaspberryPi-GStremaer-1.0 $ echo "export PYTHONPATH=~/.local/lib/python3.7/site-packages:/usr/local/lib/python3.7/site-packages:$PYTHONPATH" >> ~/.bashrc
-~/RaspberryPi-GStremaer-1.0 $ source ~/.bashrc
+git clone --recurse-submodules -j$(nproc) https://github.com/raspberrypiexperiments/RaspberryPi-GStreamer-1.0.git
+cd RaspberryPi-GStreamer-1.0
+make install
+echo "export PATH=~/.local/bin:/usr/local/bin:$PATH" >> ~/.basrc
+echo "export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH" >> ~/.bashrc
+echo "export PYTHONPATH=~/.local/lib/python3.7/site-packages:/usr/local/lib/python3.7/site-packages:$PYTHONPATH" >> ~/.bashrc
+source ~/.bashrc
 ```
 
 ## Unistallation procedure
 
 ```bash
-~/RaspberryPi-GStremaer-1.0 $ make uninstall
-~/RaspberryPi-GStremaer-1.0 $ cd ..
-~ $ rm -rf RaspberryPi-GStremaer-1.0
+make uninstall
+cd ..
+sudo rm -rf RaspberryPi-GStreamer-1.0
 ```
 
 ## Known issues

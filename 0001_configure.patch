@@ -1,0 +1,10 @@
+--- a/build/sources/linux_armv6l/libvpx-v1.8.1/configure	2021-09-28 16:38:49.372191388 +0100
++++ b/build/sources/linux_armv6l/libvpx-v1.8.1/configure	2021-09-28 16:38:31.752302732 +0100
+@@ -103,6 +103,7 @@
+ all_platforms="${all_platforms} arm64-win64-gcc"
+ all_platforms="${all_platforms} arm64-win64-vs15"
+ all_platforms="${all_platforms} arm64-win64-vs16"
++all_platforms="${all_platforms} armv6l-linux-gcc"
+ all_platforms="${all_platforms} armv7-android-gcc"   #neon Cortex-A8
+ all_platforms="${all_platforms} armv7-darwin-gcc"    #neon Cortex-A8
+ all_platforms="${all_platforms} armv7-linux-rvct"    #neon Cortex-A8

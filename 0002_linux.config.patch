@@ -1,9 +1,0 @@
---- a/cerbero/config/linux.config	2020-11-28 16:21:57.747388381 +0100
-+++ b/cerbero/config/linux.config	2020-11-28 16:22:17.867123059 +0100
-@@ -106,3 +106,6 @@
-     comp = env.get('CXX', 'g++')
-     if not 'ccache' in comp:
-         env['CXX'] = 'ccache ' + comp
-+
-+prefix='/usr/local'
-+tools_prefix='arm-linux-gnueabihf-'

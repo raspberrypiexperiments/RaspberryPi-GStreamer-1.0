@@ -1,6 +1,6 @@
---- a/cerbero/recipes/gst-omx-1.0.recipe	2020-12-05 12:16:50.680144258 +0000
-+++ b/cerbero/recipes/gst-omx-1.0.recipe	2020-12-05 14:39:43.476000000 +0000
-@@ -21,5 +21,15 @@
+--- a/cerbero/recipes/gst-omx-1.0.recipe	2021-09-30 18:27:05.073272356 +0100
++++ b/cerbero/recipes/gst-omx-1.0.recipe	2021-09-30 18:28:32.434542209 +0100
+@@ -21,5 +21,19 @@
              self.append_env('CPPFLAGS', *flags)
              self.append_env('LDFLAGS', '-L/opt/vc/lib')
              self.meson_options['target'] = 'rpi'
@@ -11,8 +11,12 @@
 +    async def configure(self):
 +        if self.config.variants.rpi:
 +            try:
-+                os.system('patch -p1 < recipes/libgstomx/0001_gstomx.pc.in.patch')
-+                os.system('patch -p1 < recipes/libgstomx/0002_meson.build.patch')
++                if self.config.target_arch == Architecture.ARMv7:
++                    os.system('patch -p1 < recipes/libgstomx/0001_gstomx.pc.in.patch')
++                    os.system('patch -p1 < recipes/libgstomx/0002_meson.build.patch')
++                if self.config.target_arch == Architecture.ARMv6L:
++                    os.system('patch -p1 < recipes/libgstomx/0003_gstomx.pc.in.patch')
++                    os.system('patch -p1 < recipes/libgstomx/0004_meson.build.patch')
 +            except:
 +                pass
 +        await super(Recipe, self).configure()

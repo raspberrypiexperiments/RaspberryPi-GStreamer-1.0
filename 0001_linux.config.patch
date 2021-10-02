@@ -1,0 +1,28 @@
+--- a/cerbero/config/linux.config	2021-09-26 20:04:29.471607828 +0100
++++ b/cerbero/config/linux.config	2021-09-26 20:25:42.193509517 +0100
+@@ -20,7 +20,9 @@
+ elif target_arch == Architecture.X86_64:
+     arch_flags += ' -m64 '
+     _host = 'x86_64-linux-gnu'
+-if target_arch in [Architecture.ARM, Architecture.ARMv7, Architecture.ARM64]:
++if target_arch in [Architecture.ARM, Architecture.ARMv6L, Architecture.ARMv7, Architecture.ARM64]:
++    if target_arch == Architecture.ARMv6L:
++        arch_flags += ' -march=armv6 '
+     if target_arch == Architecture.ARMv7:
+         arch_flags += ' -march=armv7-a '
+     if target_arch == Architecture.ARM64:
+@@ -29,7 +31,7 @@
+         if distro == Distro.REDHAT:
+             _host = 'arm-linux-gnu'
+         else:
+-            _host = 'arm-linux-gnueabi'
++            _host = 'arm-linux-gnueabihf'
+     env['glib_cv_stack_grows'] = 'no'
+     env['glib_cv_uscore'] = 'no'
+     env['ac_cv_func_posix_getgrgid_r'] = 'yes'
+@@ -106,3 +108,5 @@
+     comp = env.get('CXX', 'g++')
+     if not 'ccache' in comp:
+         env['CXX'] = 'ccache ' + comp
++
++prefix='/usr/local'

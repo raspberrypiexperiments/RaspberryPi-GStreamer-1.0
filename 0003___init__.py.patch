@@ -1,0 +1,20 @@
+--- a/cerbero/cerbero/utils/__init__.py	2021-09-26 19:00:33.862078939 +0100
++++ b/cerbero/cerbero/utils/__init__.py	2021-09-26 19:46:13.717877261 +0100
+@@ -145,6 +145,8 @@
+             arch = Architecture.X86_64
+         elif arch.endswith('86'):
+             arch = Architecture.X86
++        elif arch.startswith('armv6l'):
++            arch = Architecture.ARMv6L
+         elif arch.startswith('armv7'):
+             arch = Architecture.ARMv7
+         elif arch.startswith('arm'):
+@@ -187,7 +189,7 @@
+                                     version = v.strip('"')
+                         d = (name, version, '');
+ 
+-        if d[0] in ['Ubuntu', 'debian', 'Debian GNU/Linux', 'LinuxMint', 'Linux Mint']:
++        if d[0] in ['Ubuntu', 'debian', 'Debian GNU/Linux', 'Raspbian GNU/Linux', 'LinuxMint', 'Linux Mint']:
+             distro = Distro.DEBIAN
+             distro_version = d[2].lower()
+             split_str = d[2].split()

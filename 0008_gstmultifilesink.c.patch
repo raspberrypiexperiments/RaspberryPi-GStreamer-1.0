@@ -1,0 +1,84 @@
+--- a/build/sources/linux_armv6l/gst-plugins-good-1.0-1.18.1/gst/multifile/gstmultifilesink.c	2021-01-24 10:00:58.582834221 +0000
++++ b/build/sources/linux_armv6l/gst-plugins-good-1.0-1.18.1/gst/multifile/gstmultifilesink.c	2021-01-24 11:27:21.160702072 +0000
+@@ -5,6 +5,7 @@
+  *                    2006 David A. Schleef <ds@schleef.org>
+  *                    2011 Collabora Ltd. <tim.muller@collabora.co.uk>
+  *                    2015 Tim-Philipp Müller <tim@centricular.com>
++ *                    2021 Marcin Sielski <marcin.sielski@gmail.com>
+  *
+  * gstmultifilesink.c:
+  *
+@@ -147,6 +148,10 @@
+           "New file when the configured maximum "
+           "file duration would be exceeded with the next buffer or buffer list",
+         "max-duration"},
++    {GST_MULTI_FILE_SINK_NEXT_MAX_SIZE_OR_DURATION,
++          "New file when the configured maximum file size or maximum "
++          "file duration would be exceeded with the next buffer or buffer list",
++        "max-size-or-duration"},
+     {0, NULL, NULL}
+   };
+ 
+@@ -722,6 +727,62 @@
+ 
+       break;
+     }
++    case GST_MULTI_FILE_SINK_NEXT_MAX_SIZE_OR_DURATION:{
++      GstClockTime new_duration = 0;
++
++      guint64 new_size;
++
++      new_size = multifilesink->cur_file_size + map.size;
++
++      if (GST_BUFFER_PTS_IS_VALID (buffer)
++          && GST_CLOCK_TIME_IS_VALID (multifilesink->file_pts)) {
++        /* The new duration will extend to this new buffer pts ... */
++        new_duration = GST_BUFFER_PTS (buffer) - multifilesink->file_pts;
++        /* ... and duration (if it has one) */
++        if (GST_BUFFER_DURATION_IS_VALID (buffer))
++          new_duration += GST_BUFFER_DURATION (buffer);
++      }
++
++      if (new_size > multifilesink->max_file_size) {
++
++        GST_INFO_OBJECT (multifilesink, "current size: %" G_GUINT64_FORMAT
++            ", new_size: %" G_GUINT64_FORMAT ", max. size %" G_GUINT64_FORMAT,
++            multifilesink->cur_file_size, new_size,
++            multifilesink->max_file_size);
++
++        if (multifilesink->file != NULL) {
++          first_file = FALSE;
++          gst_multi_file_sink_close_file (multifilesink, buffer);
++        }
++      } else if (new_duration > multifilesink->max_file_duration) {
++
++        GST_INFO_OBJECT (multifilesink,
++            "new_duration: %" G_GUINT64_FORMAT ", max. duration %"
++            G_GUINT64_FORMAT, new_duration, multifilesink->max_file_duration);
++
++        if (multifilesink->file != NULL) {
++          first_file = FALSE;
++          gst_multi_file_sink_close_file (multifilesink, buffer);
++        }
++      }
++
++      if (multifilesink->file == NULL) {
++        if (!gst_multi_file_sink_open_next_file (multifilesink))
++          goto stdio_write_error;
++
++        multifilesink->file_pts = GST_BUFFER_PTS (buffer);
++        if (!first_file)
++          gst_multi_file_sink_write_stream_headers (multifilesink);
++      }
++
++      ret = fwrite (map.data, map.size, 1, multifilesink->file);
++
++      if (ret != 1)
++        goto stdio_write_error;
++
++      multifilesink->cur_file_size += map.size;
++      break;
++    }
+     default:
+       g_assert_not_reached ();
+   }

@@ -1,0 +1,61 @@
+--- a/build/sources/linux_armv6l/gst-plugins-good-1.0-1.18.1/sys/rpicamsrc/gstrpicamsrc.c	2021-01-03 09:37:08.222654873 +0000
++++ b/build/sources/linux_armv6l/gst-plugins-good-1.0-1.18.1/sys/rpicamsrc/gstrpicamsrc.c	2021-02-07 15:33:12.217882708 +0000
+@@ -1,6 +1,7 @@
+ /*
+  * GStreamer
+  * Copyright (C) 2013-2015 Jan Schmidt <jan@centricular.com>
++ *                    2021 Marcin Sielski <marcin.sielski@gmail.com>
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a
+  * copy of this software and associated documentation files (the "Software"),
+@@ -168,7 +169,8 @@
+   PROP_INTRA_REFRESH_TYPE,
+   PROP_VIDEO_DIRECTION,
+   PROP_JPEG_QUALITY,
+-  PROP_USE_STC
++  PROP_USE_STC,
++  PROP_CAMERA_TIMEOUT
+ };
+ 
+ #define CAMERA_DEFAULT 0
+@@ -518,6 +520,10 @@
+       g_param_spec_boolean ("use-stc", "Use System Time Clock",
+           "Use the camera STC for timestamping buffers", TRUE,
+           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
++  g_object_class_install_property (gobject_class, PROP_CAMERA_TIMEOUT,
++      g_param_spec_int ("camera-timeout", "Camera timeout",
++          "Camera timeout, in milliseconds. (0 = Infinite)", 0,
++          G_MAXINT, 500, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+ 
+   gst_element_class_set_static_metadata (gstelement_class,
+       "Raspberry Pi Camera Source", "Source/Video",
+@@ -956,6 +962,7 @@
+     case PROP_ROTATION:
+       gst_rpi_cam_src_reset_custom_orientation (src);
+       src->capture_config.camera_parameters.rotation = g_value_get_int (value);
++      src->capture_config.change_flags |= PROP_CHANGE_ORIENTATION;
+       break;
+     case PROP_AWB_MODE:
+       src->capture_config.camera_parameters.awbMode = g_value_get_enum (value);
+@@ -1061,6 +1068,10 @@
+     case PROP_USE_STC:
+       src->capture_config.useSTC = g_value_get_boolean (value);
+       break;
++    case PROP_CAMERA_TIMEOUT:
++      src->capture_config.cameraTimeout =
++          g_value_get_int (value);
++      break;
+     default:
+       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+       break;
+@@ -1233,6 +1244,10 @@
+     case PROP_USE_STC:
+       g_value_set_boolean (value, src->capture_config.useSTC);
+       break;
++    case PROP_CAMERA_TIMEOUT:
++      g_value_set_int (value,
++          src->capture_config.cameraTimeout);
++      break;
+     default:
+       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+       break;

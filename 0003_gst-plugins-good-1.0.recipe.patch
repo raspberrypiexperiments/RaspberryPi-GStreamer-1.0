@@ -1,6 +1,14 @@
---- a/cerbero/recipes/gst-plugins-good-1.0.recipe	2020-12-24 07:46:14.551838213 +0000
-+++ b/cerbero/recipes/gst-plugins-good-1.0.recipe	2021-02-07 13:42:52.539158541 +0000
-@@ -271,3 +271,16 @@
+--- a/cerbero/recipes/gst-plugins-good-1.0.recipe	2021-09-28 16:55:57.884657396 +0100
++++ b/cerbero/recipes/gst-plugins-good-1.0.recipe	2021-10-02 06:16:02.092354077 +0100
+@@ -235,6 +235,7 @@
+         self.enable_plugin('video4linux2', 'capture', 'v4l2', option='v4l2')
+         self.enable_plugin('ximagesrc', 'capture', 'x11')
+         self.enable_plugin('pulseaudio', 'sys', 'pulse', option='pulse')
++        self.enable_plugin('gstrpicamsrc', 'capture', 'rpi', option='rpicamsrc')
+ 
+         # Enable qt5 plugin if possible and selected
+         can_enable_qt5 = True
+@@ -271,3 +272,23 @@
  
          if self.config.variants.nodebug:
              self.append_env('CFLAGS', '-DGST_LEVEL_MAX=GST_LEVEL_FIXME')
@@ -8,11 +16,18 @@
 +    async def configure(self):
 +        if self.config.variants.rpi:
 +            try:
-+                os.system('patch -p1 < recipes/gst-plugins-good-1.0/0001_RaspiCapture.c.patch')
-+                os.system('patch -p1 < recipes/gst-plugins-good-1.0/0002_gstrpicamsrc.c.patch')
-+                os.system('patch -p1 < recipes/gst-plugins-good-1.0/0003_gstmultifilesink.c.patch')
-+                os.system('patch -p1 < recipes/gst-plugins-good-1.0/0004_gstmultifilesink.h.patch')
-+                os.system('patch -p1 < recipes/gst-plugins-good-1.0/0005_RaspiCapture.h.patch')
++                if self.config.target_arch == Architecture.ARMv7:
++                    os.system('patch -p1 < recipes/gst-plugins-good-1.0/0001_RaspiCapture.c.patch')
++                    os.system('patch -p1 < recipes/gst-plugins-good-1.0/0002_gstrpicamsrc.c.patch')
++                    os.system('patch -p1 < recipes/gst-plugins-good-1.0/0003_gstmultifilesink.c.patch')
++                    os.system('patch -p1 < recipes/gst-plugins-good-1.0/0004_gstmultifilesink.h.patch')
++                    os.system('patch -p1 < recipes/gst-plugins-good-1.0/0005_RaspiCapture.h.patch')
++                if self.config.target_arch == Architecture.ARMv6L:
++                    os.system('patch -p1 < recipes/gst-plugins-good-1.0/0006_RaspiCapture.c.patch')
++                    os.system('patch -p1 < recipes/gst-plugins-good-1.0/0007_gstrpicamsrc.c.patch')
++                    os.system('patch -p1 < recipes/gst-plugins-good-1.0/0008_gstmultifilesink.c.patch')
++                    os.system('patch -p1 < recipes/gst-plugins-good-1.0/0009_gstmultifilesink.h.patch')
++                    os.system('patch -p1 < recipes/gst-plugins-good-1.0/0010_RaspiCapture.h.patch')
 +            except:
 +                pass
 +        await super(Recipe, self).configure()

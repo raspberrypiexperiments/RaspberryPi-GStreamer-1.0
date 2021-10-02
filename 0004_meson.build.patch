@@ -1,0 +1,24 @@
+--- a/build/sources/linux_armv6l/gst-omx-1.0-1.18.1/meson.build	2020-12-05 12:13:04.102854030 +0000
++++ b/build/sources/linux_armv6l/gst-omx-1.0-1.18.1/meson.build	2020-12-05 12:12:42.723130854 +0000
+@@ -421,5 +421,21 @@
+ 
+ configure_file(output: 'config.h', configuration: cdata)
+ 
++pkgconf = configuration_data()
++
++pkgconf.set('prefix', join_paths(get_option('prefix')))
++pkgconf.set('exec_prefix', '${prefix}')
++pkgconf.set('libdir', '${prefix}/@0@'.format(get_option('libdir')))
++pkgconf.set('includedir', join_paths('${prefix}', get_option('includedir')))
++pkgconf.set('VERSION', gst_version)
++pkgconf.set('GST_API_VERSION', api_version)
++
++pkg_install_dir = '@0@/gstreamer-@1@/pkgconfig'.format(get_option('libdir'), api_version)
++
++configure_file(input : 'pkgconfig/gstomx.pc.in',
++  output : 'gstomx.pc',
++  configuration : pkgconf,
++  install_dir : pkg_install_dir)
++
+ python3 = find_program('python3')
+ run_command(python3, '-c', 'import shutil; shutil.copy("hooks/pre-commit.hook", ".git/hooks/pre-commit")')
