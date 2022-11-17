@@ -15,9 +15,9 @@ This repository includes installation procedure for GStreamer 1.18.1.
 git clone --recurse-submodules -j$(nproc) https://github.com/raspberrypiexperiments/RaspberryPi-GStreamer-1.0.git
 cd RaspberryPi-GStreamer-1.0
 make install
-echo "export PATH=~/.local/bin:/usr/local/bin:$PATH" >> ~/.basrc
+echo "export PATH=/usr/local/bin:$PATH" >> ~/.bashrc
 echo "export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH" >> ~/.bashrc
-echo "export PYTHONPATH=~/.local/lib/python3.7/site-packages:/usr/local/lib/python3.7/site-packages:$PYTHONPATH" >> ~/.bashrc
+echo "export PYTHONPATH=/usr/local/lib/python3/dist-packages:$PYTHONPATH" >> ~/.bashrc
 source ~/.bashrc
 ```
 

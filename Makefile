@@ -23,7 +23,7 @@
 dependencies:
 	sudo apt update
 	sudo apt upgrade -y
-	sudo apt install ninja-build libv4l2
+	sudo apt install ninja-build
 	pip3 install --user meson
 	cd cerbero && git checkout 1.18.1
 
